@@ -1,6 +1,13 @@
 # Music Store Analysis
 
-SQL-based analysis of a music store database using PostgreSQL. Explores employee hierarchy, customer spending, popular genres, and artist performance through basic, moderate, and advanced queries.
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?logo=postgresql&logoColor=white)
+![SQL](https://img.shields.io/badge/SQL-Advanced-blue)
+
+SQL-based analysis of a digital music store database using PostgreSQL. Explores employee hierarchy, customer spending, popular genres, and artist performance through basic, moderate, and advanced queries.
+
+## Schema Diagram
+
+![Schema Diagram](music%20store%20data/schema_diagram.png)
 
 ## Dataset
 
@@ -20,27 +27,63 @@ The dataset consists of 13 CSV tables covering a digital music store schema:
 | `playlist_track` | Track-playlist associations |
 | `track` | Individual tracks with length and genre |
 
-A schema diagram is available at `music store data/music store data/schema_diagram.png`.
+## Prerequisites
+
+- PostgreSQL (any recent version)
+- pgAdmin or any SQL client
+
+## Setup
+
+1. Create a new PostgreSQL database:
+   ```sql
+   CREATE DATABASE music_store;
+   ```
+
+2. Create the schema tables using the schema diagram as a reference.
+
+3. Import the CSV data from `music store data/`:
+   ```sql
+   COPY table_name FROM 'path/to/csv' DELIMITER ',' CSV HEADER;
+   ```
+
+4. Run the analysis queries in `Music_Store_Analysis.sql`.
 
 ## Questions Answered
 
 ### Basic
-- Senior most employee by job title
-- Countries with most invoices
-- Top 3 invoice totals
-- Best city for a promotional festival (highest invoice sum)
-- Best customer (most money spent)
+| Question | Query |
+|---|---|
+| Senior most employee by job title | `employee` table ordered by `levels` DESC |
+| Countries with most invoices | `invoice` grouped by `billing_country` |
+| Top 3 invoice totals | `invoice` totals sorted DESC |
+| Best city for a promotional festival | City with highest sum of invoice totals |
+| Best customer (most money spent) | Customer with highest total spend |
 
 ### Moderate
-- Rock music listeners (email, name, genre)
-- Top 10 rock bands by track count
-- Tracks longer than average song length
+| Question | Query |
+|---|---|
+| Rock music listeners | Emails and names of customers who bought Rock tracks |
+| Top 10 rock bands | Bands with the most Rock tracks |
+| Tracks longer than average | Songs exceeding average song length |
 
 ### Advanced
-- Amount spent by each customer per artist
-- Top customer by spending per country (handles ties)
+| Question | Query |
+|---|---|
+| Amount spent by each customer per artist | Customer-artist spend breakdown using CTE |
+| Top customer per country | Highest-spending customer per country (handles ties with `ROW_NUMBER()`) |
 
 ## Files
 
-- `Music_Store_Analysis.sql` — all SQL queries
-- `music store data/` — CSV data files and schema diagram
+| File | Description |
+|---|---|
+| `Music_Store_Analysis.sql` | All SQL queries (basic → moderate → advanced) |
+| `music store data/` | CSV data files and schema diagram |
+
+## Key Techniques Used
+
+- CTEs (Common Table Expressions)
+- Window functions (`ROW_NUMBER()`, `PARTITION BY`)
+- Subqueries
+- Joins (INNER, implicit)
+- Aggregation (`SUM`, `COUNT`, `GROUP BY`)
+- Sorting and limiting results
