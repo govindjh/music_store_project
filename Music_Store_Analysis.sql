@@ -1,5 +1,3 @@
-select * from albumQ1: Who is the senior most employee based on job title?
-
 -- Q1: Who is the senior most employee based on job title?
 
 select first_name,last_name
